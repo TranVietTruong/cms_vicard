@@ -49,6 +49,8 @@ class OrderController extends Controller
             $query->whereBetween('created_at', [$start_time.' 00:00:00', $end_time. '23:59:59']);
         }
         $total = $query->count();
+
+        $query->orderBy('id','desc');
         $query->skip(($page - 1) * $limit);
         $query->take($limit);
 
