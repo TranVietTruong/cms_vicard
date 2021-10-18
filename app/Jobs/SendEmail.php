@@ -2,11 +2,12 @@
 
 namespace App\Jobs;
 
-use App\Mail\ForgetPassword;
+use App\Mail\ConfirmOrder;
+use App\Models\CodeTag;
+use App\Models\Order;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -23,13 +24,11 @@ class SendEmail implements ShouldQueue
      *
      * @return void
      */
-    public $user;
-    public $token;
+    public $order;
 
-    public function __construct($user, $token)
+    public function __construct($order)
     {
-        $this->user = $user;
-        $this->token = $token;
+        $this->order = $order;
     }
 
     /**
@@ -41,14 +40,17 @@ class SendEmail implements ShouldQueue
     {
         try
         {
-            Mail::to($this->user->email)->send(new ForgetPassword($this->user->full_name, $this->token));
+            Mail::to($this->order->email)->send(new ConfirmOrder($this->order->name));
 
-            $user = User::where('id', $this->user->id)->where('status', 1)->first();
-            if($user) {
-                $user->forget_password_at = Carbon::now('Asia/Ho_Chi_Minh');
-                $user->save();
+            $order = Order::where('id', $this->order->id)->first();
+            if($order) {
+                $order->payment_status = 1;
+                $order->save();
+
+                $code_tag = new CodeTag();
+                $code_tag->code_tag = $order->code_tag;
+                $code_tag->save();
             }
-
         }
         catch (\Exception $e)
         {

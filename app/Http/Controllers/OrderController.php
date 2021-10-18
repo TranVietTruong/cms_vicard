@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
 use App\Models\Order;
 use App\Services\Response;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use function Sodium\library_version_major;
 
 class OrderController extends Controller
 {
@@ -57,5 +56,18 @@ class OrderController extends Controller
         $data = $query->get();
 
         return Response::data(['data' => $data, 'total' => $total]);
+    }
+
+    public function confirm(Request $request) {
+
+        $id = $request->id;
+        $order = Order::where('id', $id)->first();
+        if(!$order) {
+            return Response::error('Đơn hàng không tồn tại', 404);
+        }
+
+        SendEmail::dispatch($order);
+
+        return Response::data();
     }
 }

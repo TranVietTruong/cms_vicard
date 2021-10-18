@@ -105,7 +105,11 @@
           align="center"
           label="Xác nhận">
           <template slot-scope="scope">
-            <el-button size="small" type="primary">Xác nhận</el-button>
+            <el-button
+              @click="confirmOrder(scope.row.id)"
+              v-if="scope.row.payment_status === 0"
+              size="small"
+              type="primary">Xác nhận</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -183,6 +187,19 @@
       changePage(page) {
         this.query.page = page;
         this.list();
+      },
+      confirmOrder(id) {
+        axios.post('confirm', {'id':id}).then((res) => {
+          this.$notify({
+            message: 'Xác nhận thanh toán thành công',
+            type: 'success'
+          });
+        }).catch((error) => {
+          this.$notify({
+            message: error.response.data.message,
+            type: 'error'
+          });
+        });
       }
     }
   }

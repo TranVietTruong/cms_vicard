@@ -12,11 +12,9 @@
 
 use Webpatser\Uuid\Uuid;
 
-Route::get('/view/email', [\App\Http\Controllers\UserController::class, 'forgetPassword']);
-
-Route::get('/preview/{name}',[\App\Http\Controllers\PreviewController::class, 'preview']);
-Route::get('/view/{name}',[\App\Http\Controllers\ViewController::class, 'index']);
-Route::get('/save-contact/{userId}', [\App\Http\Controllers\VcardController::class, 'saveContact']);
+Route::get('/view/email', function (){
+    return view('mail.confirmOrder');
+});
 
 
 

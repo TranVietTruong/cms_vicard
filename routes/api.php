@@ -26,4 +26,5 @@ Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'v1.0/auth', 'name
 
 Route::group(['middleware' => ['api','auth:api'], 'prefix' => 'v1.0', 'namespace' => 'api'], function (){
     Route::get('order', [\App\Http\Controllers\OrderController::class,'listOrder']);
+    Route::post('confirm', [\App\Http\Controllers\OrderController::class,'confirm']);
 });
