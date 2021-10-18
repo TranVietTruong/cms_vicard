@@ -25,7 +25,7 @@
     </div>
     <div class="content" style="padding-top: 18px; padding-bottom: 24px">
         <div style="width: 150px; margin: 0 auto; margin-bottom:20px;">
-          <img width="100%" height="100%" src="https://res.cloudinary.com/truongtv/image/upload/v1634570768/logo/tegqd6ratzaxhsserafp.svg" alt="">
+          <img width="100%" height="100%" src="https://res.cloudinary.com/truongtv/image/upload/v1634570971/logo/blzec36bymbzz1tnkwa4.png" alt="">
         </div>
         <div class="description" style="line-height: 18px; color: #172948; margin-bottom: 14px">
             <div>
